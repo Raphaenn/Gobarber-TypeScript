@@ -2,7 +2,9 @@
 // Arquivo usado para descrever uma appointment
 // Responsavel pela formatacão dos dados
 
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+
+import UserModel from "./UserModel";
 
 @Entity('appointments')
 class AppointmentModel {
@@ -10,10 +12,21 @@ class AppointmentModel {
     id: string;
 
     @Column()
-    provider: string;
+    provider_id: string;
+
+    // Parte de relacionamento entre users and appointments
+    @ManyToOne(() => UserModel)
+    @JoinColumn({ name: 'provider_id' })
+    provider: UserModel;
 
     @Column('timestamp with time zone')
     date: Date;
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 };
 
 export default AppointmentModel;

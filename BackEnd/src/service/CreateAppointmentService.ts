@@ -6,15 +6,13 @@ import { getCustomRepository } from "typeorm";
 import { startOfHour } from "date-fns";
 
 interface Request {
-    provider: string;
+    provider_id: string;
     date: Date;
 }
 
-// Dependency Inversion (SOLID)
-
 class CreateappointmentService {
 
-    public async execute({date, provider}: Request): Promise<Appointment> {
+    public async execute({date, provider_id}: Request): Promise<Appointment> {
 
         const apptRepo = getCustomRepository(AppointmentsRepo)
 
@@ -30,7 +28,7 @@ class CreateappointmentService {
     
         // Criar a instancia do modo, logo não salva no banco de dados ainda
         const appointment = apptRepo.create({
-            provider,
+            provider_id,
             date: appDate
         });
 
