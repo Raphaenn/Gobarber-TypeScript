@@ -1,9 +1,11 @@
 // arquivo que contem as regras de negocio do agendamento;
 
-import Appointment from "../models/Appointment";
+import Appointment from "../entities/Appointment";
 import AppointmentsRepo from "../repositories/AppointmentsRepo";
 import { getCustomRepository } from "typeorm";
 import { startOfHour } from "date-fns";
+
+import AppError from "../../../shared/errors/AppError";
 
 interface Request {
     provider_id: string;
@@ -23,7 +25,7 @@ class CreateappointmentService {
     
         // Services nao tem acesso ao response, logo retorna apenas um throw
         if (findAppointmentInSameDate) {
-            throw Error("This appointmet is already booked");
+            throw new AppError("This appointmet is already booked", 400);
         };
     
         // Criar a instancia do modo, logo não salva no banco de dados ainda

@@ -1,7 +1,10 @@
+// Middleware de autenticação de usuários
+
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
-import authConfig from "../config/auth";
+import authConfig from "../../config/auth";
+import AppError from "../errors/AppError";
 
 interface TokenPayload {
     iat: number;
@@ -13,7 +16,7 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
     const authHeader = req.headers.authorization;
 
     if(!authHeader) {
-        throw new Error("JWT token is missing");
+        throw new AppError("JWT token is missing", 401);
     }
 
     // Bearer separar
@@ -31,7 +34,7 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
 
         return next();
     } catch (error) {
-        throw new Error("Invalid JWT token")
+        throw new AppError("Invalid JWT token", 401)
     }
 };
 

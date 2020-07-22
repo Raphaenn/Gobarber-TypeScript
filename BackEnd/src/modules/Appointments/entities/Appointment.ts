@@ -4,7 +4,7 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 
-import UserModel from "./UserModel";
+import UserModel from "../../Users/entities/UserModel";
 
 @Entity('appointments')
 class AppointmentModel {
