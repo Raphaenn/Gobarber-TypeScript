@@ -1,27 +1,33 @@
 // arquivo que contem as regras de negocio do agendamento;
 
-import Appointment from "../entities/Appointment";
-import AppointmentsRepo from "../repositories/AppointmentsRepo";
-import { getCustomRepository } from "typeorm";
+import { injectable, inject } from "tsyringe";
 import { startOfHour } from "date-fns";
 
-import AppError from "../../../shared/errors/AppError";
+import AppointmentModel from "../infra/typeorm/entities/Appointment";
+import AppError from "@shared/errors/AppError";
+import IAppointmentsRepo from "../repositories/IAppointmentsRepo";
 
-interface Request {
+interface IRequest {
     provider_id: string;
     date: Date;
 }
 
+// Torna a classe injetavel. Toda classe que tiver injeção de dependencias deve ter
+@injectable()
 class CreateappointmentService {
 
-    public async execute({date, provider_id}: Request): Promise<Appointment> {
+    // private no parametro, já cria a variavel appointmentsRepository
+    constructor(
+        @inject("AppointmentsRepo")
+        private appointmentsRepository: IAppointmentsRepo
+        ) {}
 
-        const apptRepo = getCustomRepository(AppointmentsRepo)
+    public async execute({date, provider_id}: IRequest): Promise<AppointmentModel> {
 
         const appDate = startOfHour(date);
 
         // verifica appoint por appoint e verifica se a data passada é igual a data que ja temos
-        const findAppointmentInSameDate = await apptRepo.findByDate(appDate);
+        const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(appDate);
     
         // Services nao tem acesso ao response, logo retorna apenas um throw
         if (findAppointmentInSameDate) {
@@ -29,13 +35,12 @@ class CreateappointmentService {
         };
     
         // Criar a instancia do modo, logo não salva no banco de dados ainda
-        const appointment = apptRepo.create({
+        const appointment = await this.appointmentsRepository.create({
             provider_id,
             date: appDate
         });
 
         // salvar no banco de dados
-        await apptRepo.save(appointment)
 
         return appointment
     }

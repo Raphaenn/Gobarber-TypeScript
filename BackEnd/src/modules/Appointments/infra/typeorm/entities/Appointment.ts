@@ -4,7 +4,7 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 
-import UserModel from "../../Users/entities/UserModel";
+import UsersModel from "@modules/Users/infra/typeorm/entities/UserModel";
 
 @Entity('appointments')
 class AppointmentModel {
@@ -15,9 +15,9 @@ class AppointmentModel {
     provider_id: string;
 
     // Parte de relacionamento entre users and appointments
-    @ManyToOne(() => UserModel)
+    @ManyToOne(() => UsersModel)
     @JoinColumn({ name: 'provider_id' })
-    provider: UserModel;
+    provider: UsersModel;
 
     @Column('timestamp with time zone')
     date: Date;
