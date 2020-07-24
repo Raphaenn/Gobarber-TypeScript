@@ -8,6 +8,7 @@ export default class UsersController {
         try {
             const { name, email, password } = req.body;  
     
+            // container.resolve carrega o service, ve no constructor de service se ele precisa de alguma dependencia -> vai no container com as dependecias, ve se tem alguma com mesmo nome da solicitada no service e assim retorna o repository para o CreateUserService
             const createUser = container.resolve(CreateUserService);
             const user = await createUser.execute({
                 name,

@@ -6,6 +6,7 @@ import AppError from "@shared/errors/AppError";
 import UsersModel from "../infra/typeorm/entities/UserModel";
 import uploadConfig from "@config/upload";
 import IUsersRepository from "../repositories/IUsersRepository";
+import IStorageProvider from "@shared/container/providers/StorageProvider/models/IStorageProvider";
 
 interface Request {
     user_id: string;
@@ -17,7 +18,10 @@ class UpdateAvatarservice {
 
     constructor(
         @inject('userRepository')
-        private usersRepository: IUsersRepository
+        private usersRepository: IUsersRepository,
+
+        @inject('StorageProvider')
+        private storageProvider: IStorageProvider
         ) {}
 
     public async execute({user_id, avatarname}: Request): Promise<UsersModel>{
@@ -28,21 +32,14 @@ class UpdateAvatarservice {
             throw new AppError("Only authenticat users can change avatar", 401)
         }
 
-        // Investiga se user já tinha avatar
+        // Investiga se user já tinha avatar, caso sim deleta o anterior antes de salvar o novo
         if(user.avatar) {
-            // deletar avatar anterior
-            const userAvatarPath = path.join(uploadConfig.directory, user.avatar);
-
-            // função para ver se o arquivo existe. stat mostra o status de um arquivo.
-            const userAvatarExists = await fs.promises.stat(userAvatarPath);
-
-            //Se arquivo existir, vou deletar
-            if(userAvatarExists) {
-                await fs.promises.unlink(userAvatarPath)
-            };
+            await this.storageProvider.deleteFile(user.avatar)
         };
 
-        user.avatar = avatarname;
+        const fileName = await this.storageProvider.saveFile(avatarname)
+
+        user.avatar = fileName;
 
         await this.usersRepository.save(user);
 
