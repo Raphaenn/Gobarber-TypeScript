@@ -40,9 +40,7 @@ class CreateappointmentService {
             date: appDate
         });
 
-        // salvar no banco de dados
-
-        return appointment
+        return appointment;
     }
 
 };
