@@ -1,0 +1,19 @@
+import {Request, Response} from "express";
+import { container } from "tsyringe";
+
+import ResetPassService from "@modules/Users/services/ResetPassService";
+
+export default class ResetPassController {
+    public async create(req: Request, res: Response): Promise<Response> {
+        const { password, token } = req.body;
+
+        const resetPass = container.resolve(ResetPassService);
+
+        await resetPass.execute({
+            token,
+            password
+        });
+
+        return res.status(204).json();
+    }
+}

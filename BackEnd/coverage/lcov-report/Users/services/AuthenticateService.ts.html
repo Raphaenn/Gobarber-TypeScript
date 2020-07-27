@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/57</span>
+                <span class='fraction'>0/60</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/57</span>
+                <span class='fraction'>0/60</span>
             </div>
         
             
@@ -113,7 +113,10 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -169,14 +172,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { compare } from "bcryptjs"</span></span></span>
-<span class="cstat-no" title="statement not covered" >import { sign } from "jsonwebtoken";</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { sign } from "jsonwebtoken";</span></span></span>
 <span class="cstat-no" title="statement not covered" >import { injectable, inject } from "tsyringe";</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >import UsersModel from "../infra/typeorm/entities/UserModel";</span>
 <span class="cstat-no" title="statement not covered" >import authConfig from "@config/auth";</span>
 <span class="cstat-no" title="statement not covered" >import AppError from "@shared/errors/AppError";</span>
 <span class="cstat-no" title="statement not covered" >import IUsersRepository from "../repositories/IUsersRepository";</span>
+<span class="cstat-no" title="statement not covered" >import IHashProvider from "../providers/HashProvider/models/IHashProvider";</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >interface Request {</span>
 <span class="cstat-no" title="statement not covered" >    email: string;</span>
@@ -193,7 +199,10 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    constructor(</span>
 <span class="cstat-no" title="statement not covered" >        @inject('UserRepo')</span>
-<span class="cstat-no" title="statement not covered" >        private userRepository: IUsersRepository</span>
+<span class="cstat-no" title="statement not covered" >        private userRepository: IUsersRepository,</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >        @inject('hashProvider')</span>
+<span class="cstat-no" title="statement not covered" >        private hashProvider: IHashProvider</span>
 <span class="cstat-no" title="statement not covered" >        ) {}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    public async execute({ email, password }: Request): Promise&lt;Response&gt; {</span>
@@ -203,7 +212,7 @@
 <span class="cstat-no" title="statement not covered" >            throw new AppError('Incorrect email/password combination.', 401)</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        const passwordMatch = await compare(password, user.password)</span>
+<span class="cstat-no" title="statement not covered" >        const passwordMatch = await this.hashProvider.compareHash(password, user.password)</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        if(!passwordMatch) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new AppError('Incorrect email/password combination.', 401)</span>
@@ -232,7 +241,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jul 24 2020 12:26:14 GMT-0300 (Brasilia Standard Time)
+                at Mon Jul 27 2020 16:38:39 GMT-0300 (Brasilia Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
