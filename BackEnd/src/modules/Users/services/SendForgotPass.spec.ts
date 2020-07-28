@@ -1,11 +1,12 @@
 import AppError from "@shared/errors/AppError";
-import SendForgotPassService from "./SendForgotPassService";
+
 import FakeUsersRepository from "../repositories/fakes/FakeUsersRepository";
-import FakeMailProvider from "@shared/container/providers/MailProvider/fakes/FakeMailProvider";
 import FakeUserTokenRepo from "@modules/Users/repositories/fakes/FakeUserTokenRepo";
+import FakeMailProvider from "@shared/container/providers/MailProvider/fakes/FakeMailProvider";
+import SendForgotPassService from "./SendForgotPassService";
 
 let fakeUserRepo: FakeUsersRepository;
-let fakeMailRepo: FakeMailProvider;
+let fakeMailProvider: FakeMailProvider;
 let fakeTokenRepo: FakeUserTokenRepo;
 let sendForgotPasswordEmail: SendForgotPassService;
 
@@ -15,18 +16,18 @@ describe("SendForgotPasseEmail", () => {
     // função que cria gatilhos de forma automatica. O objetivo é preencher os let com as instancias que elas devem chamar. 
     beforeEach(() => {
         fakeUserRepo = new FakeUsersRepository();
-        fakeMailRepo = new FakeMailProvider();
+        fakeMailProvider = new FakeMailProvider();
         fakeTokenRepo = new FakeUserTokenRepo();
 
         sendForgotPasswordEmail = new SendForgotPassService(
             fakeUserRepo,
-            fakeMailRepo,
+            fakeMailProvider,
             fakeTokenRepo
         )
     });
 
     it("Should be able to send a email, to recovery the password", async () => {
-        const sendmail = jest.spyOn(fakeMailRepo, 'sendMail')
+        const sendmail = jest.spyOn(fakeMailProvider, 'sendEMail');
 
         await fakeUserRepo.create({
             name: "Raphael Neves",

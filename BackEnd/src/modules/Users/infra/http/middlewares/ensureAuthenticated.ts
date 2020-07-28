@@ -6,7 +6,7 @@ import { verify } from "jsonwebtoken";
 import authConfig from "@config/auth";
 import AppError from "@shared/errors/AppError";
 
-interface TokenPayload {
+interface ITokenPayload {
     iat: number;
     exp: number;
     sub: string;
@@ -26,7 +26,7 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
         const decode = verify(token, authConfig.jwt.secret);
 
         // as TokenPayload é um hack do typescript para forçar um formato para o decode
-        const { sub } = decode as TokenPayload;
+        const { sub } = decode as ITokenPayload;
 
         req.user = {
             id: sub,

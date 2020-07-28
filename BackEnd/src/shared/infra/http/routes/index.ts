@@ -3,6 +3,7 @@ import appointmentsRouter from "@modules/Appointments/infra/http/routes/appointm
 import usersRoute from "@modules/Users/infra/http/routes/users.routes";
 import sessionsRoute from "@modules/Users/infra/http/routes/sessions.routes";
 import passwordRouter from "@modules/Users/infra/http/routes/password.routes";
+import profileRouter from "@modules/Users/infra/http/routes/profile.routes";
 
 const routes = Router();
 
@@ -12,5 +13,6 @@ routes.use('/sessions', sessionsRoute);
 routes.use('/users', usersRoute);
 routes.use('/appointmens', appointmentsRouter);
 routes.use('/password', passwordRouter); //localhost:3333/password/reset && localhost:3333/password/forgot
+routes.use('/profile', profileRouter)
 
 export default routes;

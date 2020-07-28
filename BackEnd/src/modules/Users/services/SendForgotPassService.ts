@@ -1,4 +1,5 @@
 import { injectable, inject } from "tsyringe";
+import path from "path";
 
 import AppError from "@shared/errors/AppError";
 import IUsersRepository from "../repositories/IUsersRepository";
@@ -30,9 +31,23 @@ class SendForgotPassService {
             throw new AppError("user dows not exists");
         }
 
-        const {token} =  await this.userTokenRepository.generate(user.id)
+        const {token} =  await this.userTokenRepository.generate(user.id);
+        const forgotPassTemplate = path.resolve(__dirname, '..', 'views', 'forgot_password.hbs');
 
-        await this.mailproviders.sendEMail(email, `Password recovery solicitation: ${token}`);
+        await this.mailproviders.sendEMail({
+            to: {
+                name: user.name,
+                email: user.email
+            },
+            subject: "[Gobarber] Recuperação de senha",
+            templateData: {
+                file: forgotPassTemplate,
+                variables: {
+                    name: user.name,
+                    link: `http://localhost:3000/reset_password?token=${token}`
+                }
+            }
+        });
     };
 
 };
