@@ -15,56 +15,67 @@ describe('ListMonthAvailability', () => {
     it('Should be abre to list the month availabiity from provider', async () => {
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 8, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 9, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 10, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 11, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 12, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 13, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 14, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 15, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 16, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 27, 17, 0, 0)
         });
 
         await fakeAppointmentsRepo.create({
             provider_id: 'user',
+            user_id: '23123',
             date: new Date(2020, 6, 28, 8, 0, 0)
         });
 

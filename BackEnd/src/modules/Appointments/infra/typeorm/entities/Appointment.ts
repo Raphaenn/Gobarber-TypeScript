@@ -14,10 +14,20 @@ class AppointmentModel {
     @Column()
     provider_id: string;
 
-    // Parte de relacionamento entre users and appointments
+    // Parte de relacionamento entre providers and appointments
     @ManyToOne(() => UsersModel)
     @JoinColumn({ name: 'provider_id' })
     provider: UsersModel;
+
+    // lista coluna do banco de dados
+    @Column()
+    user_id: string;
+
+    // Parte de relacionamento entre users and appointments
+    // Relacionamento exclusivo do js.
+    @ManyToOne(() => UsersModel)
+    @JoinColumn({ name: 'user_id' })
+    user: UsersModel;
 
     @Column('timestamp with time zone')
     date: Date;
