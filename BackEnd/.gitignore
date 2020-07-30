@@ -3,3 +3,4 @@ node_modules
 tmp/*
 !tmp/.gitkeep
 ormConfig.json
+coverage
