@@ -1,11 +1,12 @@
 // arquivo que contem as regras de negocio do agendamento;
 
 import { injectable, inject } from "tsyringe";
-import { startOfHour, isBefore, getHours } from "date-fns";
+import { startOfHour, isBefore, getHours, format } from "date-fns";
 
 import AppointmentModel from "../infra/typeorm/entities/Appointment";
 import AppError from "@shared/errors/AppError";
 import IAppointmentsRepo from "../repositories/IAppointmentsRepo";
+import INotificationsRepository from "@modules/Notifications/repositories/INotificationsRepository";
 
 interface IRequest {
     provider_id: string;
@@ -20,7 +21,10 @@ class CreateappointmentService {
     // private no parametro, já cria a variavel appointmentsRepository
     constructor(
         @inject("AppointmentsRepo")
-        private appointmentsRepository: IAppointmentsRepo
+        private appointmentsRepository: IAppointmentsRepo,
+
+        @inject("NotificationsRepo")
+        private notificationsRepository: INotificationsRepository
         ) {}
 
     public async execute({date, provider_id, user_id}: IRequest): Promise<AppointmentModel> {
@@ -55,6 +59,13 @@ class CreateappointmentService {
             provider_id,
             user_id,
             date: appDate
+        });
+
+        const dateFormated = format(date, "dd/MM/yyyy 'as' HH:mm'h'");
+
+        await this.notificationsRepository.create({
+            recipient_id: provider_id,
+            content: `Novo agendamento para dia ${dateFormated}`
         });
 
         return appointment;

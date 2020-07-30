@@ -1,15 +1,19 @@
 import fakeAppointmentsRepo from "../repositories/fakes/fakeAppointmentsRepo";
 import CreateAppointmentService from "./CreateAppointmentService";
 import AppError from "@shared/errors/AppError";
+import FakeNotificationsRepo from "@modules/Notifications/repositories/fakes/FakeNotificationsRepo";
 
 let fakeApptRepo: fakeAppointmentsRepo;
 let createappt: CreateAppointmentService;
+let fakeNotifications: FakeNotificationsRepo;
 
 // describe serve para caracterizar os tester
 describe('CreateApppointment', () => {
     beforeEach(() => {
         fakeApptRepo = new fakeAppointmentsRepo();
-        createappt = new CreateAppointmentService(fakeApptRepo);
+        fakeNotifications = new FakeNotificationsRepo();
+        
+        createappt = new CreateAppointmentService(fakeApptRepo, fakeNotifications);
     })
 
     it('should be able to create a new appointment', async () => {

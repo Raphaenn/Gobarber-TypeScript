@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { classToClass } from "class-transformer";
 
 import UpdateAvatarservice from "@modules/Users/services/UpdateAvatarservice";
 
@@ -14,6 +15,6 @@ export default class UpdateAvatarController {
 
         delete user.password
 
-        return res.json(user)
+        return res.json(classToClass(user))
         }
 }

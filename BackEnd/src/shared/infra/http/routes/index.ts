@@ -11,7 +11,7 @@ const routes = Router();
 // o use permite enviar o appointmentsRouter para o appointmentsRouters 
 routes.use('/sessions', sessionsRoute);
 routes.use('/users', usersRoute);
-routes.use('/appointmens', appointmentsRouter);
+routes.use('/appointments', appointmentsRouter);
 routes.use('/password', passwordRouter); //localhost:3333/password/reset && localhost:3333/password/forgot
 routes.use('/profile', profileRouter)
 routes.use('/providers', providersRouter)
