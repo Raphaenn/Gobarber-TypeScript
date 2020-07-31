@@ -4,3 +4,4 @@ tmp/*
 !tmp/.gitkeep
 ormConfig.json
 coverage
+dist
