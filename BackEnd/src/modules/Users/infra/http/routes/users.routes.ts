@@ -11,7 +11,7 @@ import uploadConfig from "@config/upload";
 const usersRoute = Router();
 const usersController = new UsersController();
 const updateAvatarController = new UpdateAvatarController();
-const upload = multer(uploadConfig);
+const upload = multer(uploadConfig.multer);
 
 usersRoute.post("/", celebrate({
     [Segments.BODY]: { 
