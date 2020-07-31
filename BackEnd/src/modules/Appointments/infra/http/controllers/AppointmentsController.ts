@@ -9,12 +9,10 @@ export default class AppointmentsController {
         const user_id = req.user.id
         const { provider_id, date } = req.body;
 
-        const parsedDate = parseISO(date);
-
         // container.revolve verifia se o service prcisa de alguma dependencia, vai no container e retorna uma instancia da classe AppointmentsRepo do container
         const createAppt = container.resolve(CreateappointmentService);
 
-        const appointment = await createAppt.execute({date: parsedDate, provider_id, user_id})
+        const appointment = await createAppt.execute({date, provider_id, user_id})
 
         return res.json(appointment);
     }

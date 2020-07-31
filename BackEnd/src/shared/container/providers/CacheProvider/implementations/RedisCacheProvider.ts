@@ -1,23 +1,47 @@
 import Redis, { Redis as RedisClient } from "ioredis";
 
+import cacheConfig from "@config/cache";
 import ICacheProvider from "../models/ICacheProvider";
 
 export default class RedisCacheProvider implements ICacheProvider{
     private client: RedisClient;
 
     constructor () {
-        this.client = new Redis();
+        this.client = new Redis(cacheConfig.config.redis);
     }
 
-    save(key: string, value: string): Promise<void> {
-
+    public async save(key: string, value: any): Promise<void> {
+        await this.client.set(key, JSON.stringify(value))
     };
 
-    recover(key: string): Promise<string> {
+    public async recover<T>(key: string): Promise<T | null> {
+        const data = await this.client.get(key);
 
+        if(!data) {
+            return null
+        }
+
+        // parse data 
+        const parsedData = JSON.parse(data) as T;
+
+        return parsedData
     };
 
-    invalidate(key: string): Promise<void> {
+    public async invalidate(key: string): Promise<void> {
+        await this.client.del(key)
+    }; 
 
-    }
+    public async invalidatePrefix(prefix: string): Promise<void> {
+        // buscar todas chaves que começa com prefix
+        const keys = await this.client.keys(`${prefix}:*`);
+
+        const pipeline = this.client.pipeline();
+
+        keys.forEach(key => {
+            pipeline.del(key)
+        });
+
+        await pipeline.exec()
+
+    }; 
 }
