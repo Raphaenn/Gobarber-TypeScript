@@ -17,7 +17,7 @@ class UserRepo implements IUsersRepository{
     }
 
     public async findAllProviders({execept_user_id}: IFindAllProvidersDTO): Promise<UsersModel[]> {
-            // Como eu declarei o let users fora, eu não preciso declarar novamente dentro do if
+        // Como eu declarei o let users fora, eu não preciso declarar novamente dentro do if
         let users: UsersModel[];
 
         if(execept_user_id) {

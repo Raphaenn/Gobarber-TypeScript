@@ -1,6 +1,6 @@
 // Arquivo que é responsavel por tudo que vai mexer nos dados de agendamento. Qualquer funcao que for ler, listar, deletar criar... deve ficar dentro do repositorio
 
-import { getRepository, Repository, Raw } from "typeorm"
+import { getRepository, Repository, Raw } from "typeorm";
 
 import AppointmentModel from "../entities/Appointment";
 import IAppointmentsRepo from "@modules/Appointments/repositories/IAppointmentsRepo";
